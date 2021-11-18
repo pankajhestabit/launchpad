@@ -40,15 +40,35 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                     @if(Auth::check())
-                        @if(Auth::user()->roll == 'Admin')
+                        @if(Auth::user()->role == 'Student')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('student') }}">Students</a>
+                                    <a class="nav-link" href="{{ route('student.teacherlist') }}">Assigned Teacher</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('teacher') }}">Teachers</a>
+                                    <a class="nav-link" href="{{ url('/') }}">Profile</a>
+                                </li>
+                        @endif
+                        @if(Auth::user()->role == 'Teacher')
+                        <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('teacher.studentlist') }}">Assigned Students</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('teacher.subject') }}">Add Subject</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/') }}">Profile</a>
+                                </li>
+                        @endif
+                        @if(Auth::user()->role == 'Admin')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.student') }}">Students</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.teacher') }}">Teachers</a>
                                 </li>
                         @endif        
                     @endif
+                    
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -64,7 +84,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{Auth::user()->role}} - {{ Auth::user()->name }}
+                                {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
