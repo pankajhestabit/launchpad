@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class assignStudentNotification extends Notification
+class appNotification extends Notification
 {
     use Queueable;
     private $details;
@@ -26,7 +26,7 @@ class assignStudentNotification extends Notification
      *
      * @param  mixed  $notifiable
      * @return array
-     */
+    */
     public function via($notifiable)
     {
         return ['mail', 'database'];

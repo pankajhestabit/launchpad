@@ -25,10 +25,12 @@ class AdminController extends Controller
     }
 
     
+
     public function index()
     {
         return view('admin.admin_dashboard');
     }
+
 
     /*
     *  To show student list to approve profile
@@ -45,6 +47,7 @@ class AdminController extends Controller
     }
 
 
+
     /*
     * To Approve student profile
     */
@@ -59,6 +62,7 @@ class AdminController extends Controller
         
         return redirect()->route('admin.student');
     }
+
 
 
     /*
@@ -84,6 +88,7 @@ class AdminController extends Controller
     }
 
 
+
     /*
     * Assign student to a teacher
     */
@@ -103,9 +108,16 @@ class AdminController extends Controller
                 }
             }
 
-            $user = User::find($teacherId);
-            //
-            Notification::send($user, new assignStudentNotification(['name' => 'Pankaj']));
+            $teacher = User::find($teacherId);
+
+            $details = [
+                'greeting' => 'Hi '.$teacher->name,
+                'body' => 'A student has been assigned to you.',
+                'thanks' => 'Thank you', 
+            ];
+
+            Notification::send($teacher, new assignStudentNotification($details));  /* Send notification to teacher on assigning of students */
+            // $teacher->notify(new \App\Notifications\appNotification($details));
             
         } catch (Exception $e) {
             return $e->getMessage();
@@ -114,6 +126,8 @@ class AdminController extends Controller
         $request->session()->flash('success','Student Assigned');
         return redirect()->route('admin.teacher');
     }
+
+
 
 
     /*
@@ -129,6 +143,7 @@ class AdminController extends Controller
         return view('admin.teacher_list', ['teachers' => $teachers, 'sn' => 1]);
     }
 
+
     
     /*
     * To approve teacher
@@ -143,5 +158,16 @@ class AdminController extends Controller
         }
         
         return redirect()->route('admin.teacher');
+    }
+
+
+
+    /**
+     * To show notification
+     */
+    public function markAsRead(){
+        return 'steps to read notification';
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->back();
     }
 }

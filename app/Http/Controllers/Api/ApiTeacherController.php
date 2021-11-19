@@ -57,6 +57,7 @@ class ApiTeacherController extends Controller
         ]);
     }
 
+    
 
     /*
     * Display the specified teacher details.
@@ -70,6 +71,7 @@ class ApiTeacherController extends Controller
         return response()->json(['success' => true, 'data' => $teacher], 200);
     }
    
+
 
     /*
     * Update the specified resource in storage.
@@ -130,6 +132,7 @@ class ApiTeacherController extends Controller
 
         return response()->json(['success' => true, 'data' => 'Teacher updated'], 200);
     }
+
 
 
     /*

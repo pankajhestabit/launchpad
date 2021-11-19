@@ -25,7 +25,7 @@
            
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                Hello, <br>
+                Hello, {{ isset($name) ? $name : '' }}<br>
                 Your profile has been approved by the admin.
             </div>
         </div>

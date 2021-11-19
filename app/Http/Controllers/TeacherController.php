@@ -126,6 +126,12 @@ class TeacherController extends Controller
     }
 
 
+    public function markAsReadTeacher(){
+        // return 'steps to read notification';
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->route('teacher.studentlist');
+    }
+
     public function studentList()
     {
         $students = DB::table('assigned_teachers')

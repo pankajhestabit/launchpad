@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +40,8 @@ Route::prefix('admin')->group(function (){
     Route::post('assign-student-store', [AdminController::class, 'assignStudentSave'])->name('admin.assignStudentSave');
 
     Route::get('approve-teacher/{id}', [AdminController::class, 'teacherApproval'])->name('admin.tapprove');
+
+    Route::get('mark-as-read', [AdminController::class, 'markAsRead'])->name('admin.mark');
 });
 
 Route::prefix('student')->group(function () {
@@ -52,6 +56,7 @@ Route::prefix('teacher')->group(function (){
     Route::get('subject', [TeacherController::class, 'subject'])->name('teacher.subject');
     Route::post('subject-store', [TeacherController::class, 'addSubject'])->name('teacher.addsubject');
     Route::get('student-list', [TeacherController::class, 'studentList'])->name('teacher.studentlist');
+    Route::get('mark-as-read-teacher', [TeacherController::class, 'markAsReadTeacher'])->name('teacher.markteacher');
 });
 
 

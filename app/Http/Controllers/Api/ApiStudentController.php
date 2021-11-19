@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiStudentController extends Controller
 {
+
     /*
     * Display a listing of the resource.
     */
@@ -54,6 +55,7 @@ class ApiStudentController extends Controller
             "data" => $students
         ]);
     }
+
 
 
     /**
@@ -131,6 +133,7 @@ class ApiStudentController extends Controller
     }
 
 
+    
     /**
      * Remove the specified resource from storage.
      */

@@ -48,9 +48,11 @@
                                     <a class="nav-link" href="{{ url('/') }}">Profile</a>
                                 </li>
                         @endif
+
                         @if(Auth::user()->role == 'Teacher')
-                        <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('teacher.studentlist') }}">Assigned Students</a>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('teacher.markteacher') }}">Assigned Students 🔔({{ auth()->user()->unreadNotifications->count() }})</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('teacher.subject') }}">Add Subject</a>
@@ -58,15 +60,19 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('/') }}">Profile</a>
                                 </li>
+
                         @endif
+
                         @if(Auth::user()->role == 'Admin')
+                        
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.student') }}">Students</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.teacher') }}">Teachers</a>
                                 </li>
-                        @endif        
+                        @endif 
+
                     @endif
                     
                         @guest
