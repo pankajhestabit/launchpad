@@ -26,7 +26,6 @@
                             <th scope="col">Cur. School</th>
                             <th scope="col">Experience</th>
                             <th scope="col">Pic</th>
-                            <th scope="col">Subject</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +39,6 @@
                             <td>{{ $teacher->current_school }}</td>
                             <td>{{ $teacher->experience }}</td>
                             <td><img src="{{ asset('storage/'.$teacher->profile_picture) }}" height="50" width="50"></td>
-                            <td></td>
                             </tr>
                             @empty
                             @endforelse

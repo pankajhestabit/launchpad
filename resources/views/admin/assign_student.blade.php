@@ -53,7 +53,7 @@
                         <div class="col-sm-8">
                         <select name="students[]" id="students" class="form-control" multiple required>
                             @forelse($students as $student)
-                            <option value="{{ $student->id }}" @if(in_array($student->id, $asList)) selected @endif>{{ $student->name }} - {{ $student->email }}</option>
+                            <option value="{{ $student->user->id }}" @if(in_array($student->user->id, $asList)) selected @endif>{{ $student->user->name }} - {{ $student->user->email }}</option>
                             @empty
                             @endforelse
                         </select>

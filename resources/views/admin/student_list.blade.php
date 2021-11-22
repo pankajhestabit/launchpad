@@ -34,15 +34,15 @@
                             @forelse($students as $student)
                             <tr>
                             <th scope="row">{{ $sn++ }}</th>
-                            <td>{{ $student->name }}</td>
-                            <td>{{ $student->email }}</td>
+                            <td>{{ $student->user->name }}</td>
+                            <td>{{ $student->user->email }}</td>
                             <td>{{ $student->address }}</td>
                             <td>{{ $student->previous_school }}</td>
                             <td>{{ $student->current_school }}</td>
                             <td>{{ $student->parent_details }}</td>
                             <td><img src="{{ asset('storage/'.$student->profile_picture) }}" height="50" width="50"></td>
                             @if($student->status == 0)
-                                <td><a href="{{ route('admin.sapprove', $student->uid) }}" class="btn btn-info">Approve</a></td>
+                                <td><a href="{{ route('admin.sapprove', $student->user->id) }}" class="btn btn-info">Approve</a></td>
                             @else
                                 <td><a class="btn btn-success" style="pointer-events: none;">Approved</a></td>
                             @endif

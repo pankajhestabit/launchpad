@@ -35,19 +35,19 @@
                             @forelse($teachers as $teacher)
                             <tr>
                             <th scope="row">{{ $sn++ }}</th>
-                            <td>{{ $teacher->name }}</td>
-                            <td>{{ $teacher->email }}</td>
+                            <td>{{ $teacher->user->name }}</td>
+                            <td>{{ $teacher->user->email }}</td>
                             <td>{{ $teacher->address }}</td>
                             <td>{{ $teacher->previous_school }}</td>
                             <td>{{ $teacher->current_school }}</td>
                             <td>{{ $teacher->experience }}</td>
                             <td><img src="{{ asset('storage/'.$teacher->profile_picture) }}" height="50" title="Img" alt="Img" width="50"></td>
                             @if($teacher->status == 0)
-                                <td><a href="{{ route('admin.tapprove', $teacher->uid) }}" class="btn btn-info">Approve</a></td>
+                                <td><a href="{{ route('admin.tapprove', $teacher->user->id) }}" class="btn btn-info">Approve</a></td>
                                 <td></td>
                             @else
                                 <td><a class="btn btn-success" style="pointer-events: none;">Approved</a></td>
-                                <td><a href="{{ route('admin.assign_student', $teacher->uid) }}" class="btn btn-info">Assign</a></td>
+                                <td><a href="{{ route('admin.assign_student', $teacher->user->id) }}" class="btn btn-info">Assign</a></td>
                             @endif
                             </tr>
                             @empty

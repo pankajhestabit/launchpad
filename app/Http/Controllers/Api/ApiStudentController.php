@@ -148,9 +148,9 @@ class ApiStudentController extends Controller
             
             DB::commit();
         
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['error'=> $th->getMessage()], 401);
+            return response()->json(['error'=> $e->getMessage()], 401);
         }
         
         return response()->json(['success'=> true, 'message' => 'Student deleted'], 200);

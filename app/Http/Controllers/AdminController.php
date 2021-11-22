@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\AssignedTeacher;
 use App\Notifications\assignStudentNotification;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 
@@ -25,7 +26,9 @@ class AdminController extends Controller
     }
 
     
-
+    /**
+     *  To view admin dashboard
+     */
     public function index()
     {
         return view('admin.admin_dashboard');
@@ -37,12 +40,10 @@ class AdminController extends Controller
     */
     public function studentList()
     {
-        $students = DB::table('users')
-                    ->Join('student_details','student_details.student_id','=','users.id')
-                    ->select('student_details.*','users.id as uid', 'users.email', 'users.name')
-                    ->where('users.role', 'Student')
-                    ->get();
-                  
+        $students = StudentDetail::whereHas('user', function (Builder $query) {
+            $query->where('role', '=', 'Student');
+        })->get();
+             
         return view('admin.student_list', ['students' => $students, 'sn' => 1]);
     }
 
@@ -73,12 +74,12 @@ class AdminController extends Controller
         $teacher = User::find($id);
         $asList = array();
 
-        $students = DB::table('users')
-                    ->Join('student_details','student_details.student_id','=','users.id')
-                    ->select('users.id', 'users.name', 'users.email', 'student_details.address', 'student_details.current_school', 'student_details.previous_school', 'student_details.parent_details', 'student_details.profile_picture')
-                    ->where('users.role', 'Student')->where('student_details.status', 1)->get();
+        $students = StudentDetail::whereHas('user', function (Builder $query) {
+            $query->where('role', '=', 'Student');
+            $query->where('status', '=', 1);
+        })->get();
         
-        $assignedStudent = DB::table('assigned_teachers')->select('student_id')->where('teachers', $id)->get();
+        $assignedStudent = AssignedTeacher::where('teachers', $id)->select('student_id')->get();
         
         foreach($assignedStudent as $as){
             $asList[] = $as->student_id;
@@ -135,11 +136,10 @@ class AdminController extends Controller
     */
     public function teacherList()
     {
-        $teachers = DB::table('users')
-                    ->join('teacher_details','teacher_details.teacher_id','=','users.id')
-                    ->select('teacher_details.*', 'users.id as uid', 'users.email', 'users.name')
-                    ->where('users.role', 'Teacher')->get();
-                    
+        $teachers = TeacherDetail::whereHas('user', function (Builder $query) {
+            $query->where('role', '=', 'Teacher');
+        })->get();
+        
         return view('admin.teacher_list', ['teachers' => $teachers, 'sn' => 1]);
     }
 
