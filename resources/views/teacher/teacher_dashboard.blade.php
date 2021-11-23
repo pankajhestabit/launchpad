@@ -48,7 +48,7 @@
                     <div class="form-group row">
                         <label for="inputAddress" class="col-sm-4 col-form-label">Address</label>
                         <div class="col-sm-8">
-                        <textarea name="address" id="inputAddress" class="form-control">{{ $teacher->address }}</textarea>
+                        <textarea name="address" id="inputAddress" class="form-control">{{ $teacher->teacherDetails->address }}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -57,26 +57,26 @@
                         <input type="file" class="form-control" id="inputFile" name="profilepic" placeholder="Profile picture">
                         </div>
                         <div class="col-sm-4">
-                        <img src="{{ asset('storage'.$teacher->profile_picture) }}" width="100" height="100" title="user image">
-                        <input type="hidden" name="p_pic" value="{{ $teacher->profile_picture }}">
+                        <img src="{{ asset('storage'.$teacher->teacherDetails->profile_picture) }}" width="100" height="100" title="user image">
+                        <input type="hidden" name="p_pic" value="{{ $teacher->teacherDetails->profile_picture }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPSchool" class="col-sm-4 col-form-label">Previous School (Optional)</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPSchool" name="pschool"value="{{ $teacher->previous_school }}" placeholder="Previous School">
+                        <input type="text" class="form-control" id="inputPSchool" name="pschool"value="{{ $teacher->teacherDetails->previous_school }}" placeholder="Previous School">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputCSchool" class="col-sm-4 col-form-label">Current School (Optional)</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputCSchool" name="cschool" value="{{ $teacher->current_school }}" placeholder="Current School">
+                        <input type="text" class="form-control" id="inputCSchool" name="cschool" value="{{ $teacher->teacherDetails->current_school }}" placeholder="Current School">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputParent" class="col-sm-4 col-form-label">Experience</label>
                         <div class="col-sm-8">
-                        <input type="text" name="experience" class="form-control" value="{{ $teacher->experience }}" id="inputExperience" placeholder="Experience">
+                        <input type="text" name="experience" class="form-control" value="{{ $teacher->teacherDetails->experience }}" id="inputExperience" placeholder="Experience">
                         </div>
                     </div>
                     <div class="form-group row">

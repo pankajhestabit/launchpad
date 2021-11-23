@@ -14,21 +14,16 @@ class TeacherController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('checkTeacher');
+        $this->middleware('checkTeacher'); // To check user role is teacher
     }
     
 
-    // To Find teacher profile data
+    // To get teacher profile
     public function index()
     {
-        $teacher = DB::table('users')
-                    ->leftJoin('teacher_details','teacher_details.teacher_id','=','users.id')
-                    ->select('teacher_details.*','users.email','users.name')
-                    ->where('users.id', Auth::user()->id)->first();
-        
+        $teacher = User::find(Auth::user()->id);
         return view('teacher.teacher_dashboard', ['teacher' => $teacher]);
     }
-
 
 
     // To add subjects to a perticular teacher
@@ -62,7 +57,7 @@ class TeacherController extends Controller
 
     // Add profile information into the database
     public function store(Request $request){
-        $uid = Auth::user()->id;
+        $id = Auth::user()->id;
 
         // Validate user input
         $validate = $request->validate([
@@ -86,32 +81,16 @@ class TeacherController extends Controller
         DB::beginTransaction();
 
         try {
-        
-            $check = DB::table('teacher_details')->where('teacher_id', $uid)->count();
+             
+            DB::table('teacher_details')->where('teacher_id', $id)->update([
+                'address' => $request->address,
+                'profile_picture' => str_replace('public','',$path),
+                'current_school' => $request->cschool,
+                'previous_school' => $request->pschool,
+                'experience' => $request->experience
+            ]);
             
-            if($check > 0)
-            { 
-                DB::table('teacher_details')->where('teacher_id', $uid)->update([
-                    'address' => $request->address,
-                    'profile_picture' => str_replace('public','',$path),
-                    'current_school' => $request->cschool,
-                    'previous_school' => $request->pschool,
-                    'experience' => $request->experience
-                    ]);
-            }else{
-
-                DB::table('teacher_details')->insert([
-                    'teacher_id' => $uid,
-                    'address' => $request->address,
-                    'profile_picture' => '',
-                    'current_school' => $request->cschool,
-                    'previous_school' => $request->pschool,
-                    'experience' => $request->experience,
-                    'status' => 0
-                    ]);
-            }
-            
-            DB::table('users')->where('id', $uid)->update([
+            DB::table('users')->where('id', $id)->update([
                 'name' => $request->name
             ]);
 
@@ -119,10 +98,11 @@ class TeacherController extends Controller
         
         } catch (Exception $e) {
             DB::rollBack();
+            return response(['error' => $e->getMessage()]);
         }
 
-         $request->session()->flash('success','Profile Info Updated');
-         return redirect('teacher');
+        $request->session()->flash('success','Profile Info Updated');
+        return redirect('teacher');
     }
 
 
