@@ -48,6 +48,11 @@ class ApiStudentController extends Controller
         $input['role'] = 'Student';
 
         $students = User::create($input);
+
+        StudentDetail::create([
+            'student_id' => $students->id,
+            'status' => 0
+        ]);
         
         return response()->json([
             "success" => true,
@@ -93,31 +98,15 @@ class ApiStudentController extends Controller
         DB::beginTransaction();
 
         try {
-            
-            $check = DB::table('student_details')->where('student_id', $id)->count();
-            
-            if($check > 0)
-            { 
-                DB::table('student_details')->where('student_id', $id)->update([
-                    'address' => $request->address,
-                    'profile_picture' => '',
-                    'current_school' => $request->current_school,
-                    'previous_school' => $request->previous_school,
-                    'parent_details' => $request->parent_details
-                    ]);
-            }else{
-                
-                DB::table('student_details')->insert([
-                    'student_id' => $id,
-                    'address' => $request->address,
-                    'profile_picture' => '',
-                    'current_school' => $request->current_school,
-                    'previous_school' => $request->previous_school,
-                    'parent_details' => $request->parent_details,
-                    'status' => 0
-                    ]);
-            }
-            
+             
+            DB::table('student_details')->where('student_id', $id)->update([
+                'address' => $request->address,
+                'profile_picture' => '',
+                'current_school' => $request->current_school,
+                'previous_school' => $request->previous_school,
+                'parent_details' => $request->parent_details
+            ]);
+
             DB::table('users')->where('id', $id)->update([
                 'name' => $request->name
             ]);

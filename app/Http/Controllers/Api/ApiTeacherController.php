@@ -49,6 +49,11 @@ class ApiTeacherController extends Controller
         $input['role'] = 'Teacher';
 
         $teacher = User::create($input);
+
+        TeacherDetail::create([
+            'teacher_id' => $teacher->id,
+            'status' => 0
+        ]);
         
         return response()->json([
             "success" => true,
@@ -70,7 +75,6 @@ class ApiTeacherController extends Controller
                     ->where('users.id', $id)->where('users.role', 'Teacher')->first();
         return response()->json(['success' => true, 'data' => $teacher], 200);
     }
-   
 
 
     /*
@@ -94,30 +98,15 @@ class ApiTeacherController extends Controller
         DB::beginTransaction();
 
         try {
+             
+            DB::table('teacher_details')->where('teacher_id', $id)->update([
+                'address' => $request->address,
+                'profile_picture' => '',
+                'current_school' => $request->current_school,
+                'previous_school' => $request->previous_school,
+                'experience' => $request->experience
+            ]);
             
-            $check = DB::table('teacher_details')->where('teacher_id', $id)->count();
-            
-            if($check > 0)
-            { 
-                DB::table('teacher_details')->where('teacher_id', $id)->update([
-                    'address' => $request->address,
-                    'profile_picture' => '',
-                    'current_school' => $request->current_school,
-                    'previous_school' => $request->previous_school,
-                    'experience' => $request->experience
-                    ]);
-            }else{
-                
-                DB::table('teacher_details')->insert([
-                    'teacher_id' => $id,
-                    'address' => $request->address,
-                    'profile_picture' => '',
-                    'current_school' => $request->current_school,
-                    'previous_school' => $request->previous_school,
-                    'experience' => $request->experience,
-                    'status' => 0
-                    ]);
-            }
             
             DB::table('users')->where('id', $id)->update([
                 'name' => $request->name
@@ -145,6 +134,7 @@ class ApiTeacherController extends Controller
         try {
 
             User::where('id', $id)->delete();
+
             TeacherDetail::where('teacher_id', $id)->delete();
             
             DB::commit();

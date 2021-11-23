@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
+use App\Models\StudentDetail;
+use App\Models\TeacherDetail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +53,20 @@ class ApiLoginController extends Controller
         
         $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
+        $user = User::create($input);
+        
+        if($input['role'] == 'Student'){
+            StudentDetail::create([
+                'student_id' => $user->id,
+                'status' => 0
+            ]);
+        }else{
+            TeacherDetail::create([
+                'teacher_id' => $user->id,
+                'status' => 0
+            ]);
+        }
+        
         $success['token'] =  $user->createToken('MyApp')-> accessToken; 
         $success['name'] =  $user->name;
 
