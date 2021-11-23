@@ -16,11 +16,11 @@ class CreateStudentDetailsTable extends Migration
         Schema::create('student_details', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id');
-            $table->string('address');
-            $table->string('profile_picture');
-            $table->string('current_school');
-            $table->string('previous_school');
-            $table->string('parent_details');
+            $table->string('address')->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->string('current_school')->nullable();
+            $table->string('previous_school')->nullable();
+            $table->string('parent_details')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

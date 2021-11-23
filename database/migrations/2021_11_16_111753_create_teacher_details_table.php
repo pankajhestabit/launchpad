@@ -16,11 +16,11 @@ class CreateTeacherDetailsTable extends Migration
         Schema::create('teacher_details', function (Blueprint $table) {
             $table->id();
             $table->integer('teacher_id');
-            $table->string('address');
-            $table->string('profile_picture');
-            $table->string('previous_school');
-            $table->string('current_school');
-            $table->string('experience');
+            $table->string('address')->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->string('previous_school')->nullable();
+            $table->string('current_school')->nullable();
+            $table->string('experience')->nullable();
             $table->string('status');
             $table->timestamps();
         });

@@ -20,32 +20,15 @@ class StudentController extends Controller
     // View student profile
     public function index()
     {
-        $student = DB::table('users')
-                    ->leftJoin('student_details','student_details.student_id','=','users.id')
-                    ->select('student_details.*','users.email','users.name')
-                    ->where('users.id', Auth::user()->id)->first();
-
+        $student = User::find(Auth::user()->id);
         return view('student/student_dashboard', ['student' => $student]);
-    }
-
-
-    // To view assigned teacher list
-    public function teacherList()
-    {
-        $teachers = DB::table('assigned_teachers')
-                        ->join('teacher_details','teacher_details.teacher_id','=','assigned_teachers.teachers')
-                        ->join('users','users.id','=','assigned_teachers.teachers')
-                        ->where('assigned_teachers.student_id', Auth::user()->id)
-                        ->select('teacher_details.*', 'users.name', 'users.email')->distinct('assigned_teachers.teachers')->get();
-                         
-        return view('student.assigned_teacher', ['teachers' => $teachers, 'sn' => 1]);
     }
 
 
     // To update profile of student
     public function store(Request $request){
         
-        $uid = Auth::user()->id;
+        $id = Auth::user()->id;
 
         // Validate user input
         $validate = $request->validate([
@@ -69,32 +52,16 @@ class StudentController extends Controller
 
         try {
             
-            $check = DB::table('student_details')->where('student_id', $uid)->count();
+            DB::table('student_details')->where('student_id', $id)->update([
+                'address' => $request->address,
+                'profile_picture' => str_replace('public','',$path),
+                'current_school' => $request->cschool,
+                'previous_school' => $request->pschool,
+                'parent_details' => $request->pdetails
+                ]);
             
-            if($check > 0)
-            { 
-                DB::table('student_details')->where('student_id', $uid)->update([
-                    'student_id' => $uid,
-                    'address' => $request->address,
-                    'profile_picture' => str_replace('public','',$path),
-                    'current_school' => $request->cschool,
-                    'previous_school' => $request->pschool,
-                    'parent_details' => $request->pdetails
-                    ]);
-            }else{
-                //return $request->all();
-                DB::table('student_details')->insert([
-                    'student_id' => $uid,
-                    'address' => $request->address,
-                    'profile_picture' => str_replace('public','',$path),
-                    'current_school' => $request->cschool,
-                    'previous_school' => $request->pschool,
-                    'parent_details' => $request->pdetails,
-                    'status' => 0
-                    ]);
-            }
             
-            DB::table('users')->where('id', $uid)->update([
+            DB::table('users')->where('id', $id)->update([
                 'name' => $request->name
             ]);
             
@@ -108,6 +75,19 @@ class StudentController extends Controller
          $request->session()->flash('success','Profile Info Updated');
          return redirect('student');
 
+    }
+
+
+    // To view assigned teacher list
+    public function teacherList()
+    {
+        $teachers = DB::table('assigned_teachers')
+                        ->join('teacher_details','teacher_details.teacher_id','=','assigned_teachers.teachers')
+                        ->join('users','users.id','=','assigned_teachers.teachers')
+                        ->where('assigned_teachers.student_id', Auth::user()->id)
+                        ->select('teacher_details.*', 'users.name', 'users.email')->distinct('assigned_teachers.teachers')->get();
+                        
+        return view('student.assigned_teacher', ['teachers' => $teachers, 'sn' => 1]);
     }
 
 }

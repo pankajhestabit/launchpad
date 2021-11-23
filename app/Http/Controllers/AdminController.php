@@ -43,7 +43,7 @@ class AdminController extends Controller
         $students = StudentDetail::whereHas('user', function (Builder $query) {
             $query->where('role', '=', 'Student');
         })->get();
-             
+
         return view('admin.student_list', ['students' => $students, 'sn' => 1]);
     }
 

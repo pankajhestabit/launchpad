@@ -43,11 +43,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
     public function teacherDetails(){
-        return $this->hasMany(TeacherDetail::class, 'teacher_id');
+        return $this->hasOne(TeacherDetail::class, 'teacher_id');
     }
 
+
     public function studentDetails(){
-        return $this->hasMany(StudentDetail::class, 'student_id');
+        return $this->hasOne(StudentDetail::class, 'student_id');
+    }
+
+    public function teacherSubject(){
+        return $this->hasMany(TeacherSubject::class, 'teacher_id');
     }
 }

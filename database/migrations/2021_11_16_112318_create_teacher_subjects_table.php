@@ -16,7 +16,7 @@ class CreateTeacherSubjectsTable extends Migration
         Schema::create('teacher_subjects', function (Blueprint $table) {
             $table->id();
             $table->integer('teacher_id');
-            $table->string('subject');
+            $table->string('subject')->nullable();
             $table->timestamps();
         });
     }

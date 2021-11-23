@@ -77,9 +77,9 @@ class TeacherController extends Controller
          
         // Upload profile Picture
         if($request->hasFile('profilepic')){
-        $path = $request->file('profilepic')->store('/public/teachers');
+            $path = $request->file('profilepic')->store('/public/teachers');
         }else{
-        $path = $request->p_pic; // taking file path from hidden field
+            $path = $request->p_pic; // taking file path from hidden field
         }
          
         
@@ -127,7 +127,6 @@ class TeacherController extends Controller
 
 
     public function markAsReadTeacher(){
-        // return 'steps to read notification';
         auth()->user()->unreadNotifications->markAsRead();
         return redirect()->route('teacher.studentlist');
     }

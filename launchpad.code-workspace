@@ -2,15 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../ms_teacher"
-		},
-		{
-			"path": "../ms_core"
-		},
-		{
-			"path": "../ms_student"
 		}
 	]
 }

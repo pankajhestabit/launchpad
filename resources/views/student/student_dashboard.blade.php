@@ -49,7 +49,7 @@
                     <div class="form-group row">
                         <label for="inputAddress" class="col-sm-4 col-form-label">Address</label>
                         <div class="col-sm-8">
-                        <textarea name="address" id="inputAddress" class="form-control">{{ $student->address }}</textarea>
+                        <textarea name="address" id="inputAddress" class="form-control">{{ $student->studentDetails->address }}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -58,26 +58,26 @@
                         <input type="file" class="form-control" id="inputFile" name="profilepic" placeholder="Profile picture">
                         </div>
                         <div class="col-sm-4">
-                        <img src="{{ asset('storage'.$student->profile_picture) }}" width="100" height="100" title="user image">
-                        <input type="hidden" name="p_pic" value="{{ $student->profile_picture }}">
+                        <img src="{{ asset('storage'.$student->studentDetails->profile_picture) }}" width="100" height="100" title="user image">
+                        <input type="hidden" name="p_pic" value="{{ $student->studentDetails->profile_picture }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPSchool" class="col-sm-4 col-form-label">Previous School</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPSchool" name="pschool" value="{{ $student->previous_school }}" placeholder="Previous School">
+                        <input type="text" class="form-control" id="inputPSchool" name="pschool" value="{{ $student->studentDetails->previous_school }}" placeholder="Previous School">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputCSchool" class="col-sm-4 col-form-label">Current School</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputCSchool" name="cschool" value="{{ $student->current_school }}" placeholder="Current School">
+                        <input type="text" class="form-control" id="inputCSchool" name="cschool" value="{{ $student->studentDetails->current_school }}" placeholder="Current School">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputParent" class="col-sm-4 col-form-label">Parent Details</label>
                         <div class="col-sm-8">
-                        <input type="text" name="pdetails" class="form-control" id="inputParent" value="{{ $student->parent_details }}" placeholder="Parent Details">
+                        <input type="text" name="pdetails" class="form-control" id="inputParent" value="{{ $student->studentDetails->parent_details }}" placeholder="Parent Details">
                         </div>
                     </div>
 
