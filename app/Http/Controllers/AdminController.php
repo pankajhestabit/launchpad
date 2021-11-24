@@ -40,10 +40,7 @@ class AdminController extends Controller
     */
     public function studentList()
     {
-        $students = StudentDetail::whereHas('user', function (Builder $query) {
-            $query->where('role', '=', 'Student');
-        })->get();
-
+        $students = StudentDetail::all();
         return view('admin.student_list', ['students' => $students, 'sn' => 1]);
     }
 
@@ -136,10 +133,7 @@ class AdminController extends Controller
     */
     public function teacherList()
     {
-        $teachers = TeacherDetail::whereHas('user', function (Builder $query) {
-            $query->where('role', '=', 'Teacher');
-        })->get();
-        
+        $teachers = TeacherDetail::all();
         return view('admin.teacher_list', ['teachers' => $teachers, 'sn' => 1]);
     }
 
